@@ -8,6 +8,27 @@ const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
 
+populateUI();
+
+// Get data from localStorage and populate it to the UI
+function populateUI() {
+  // change the string back into an array
+  const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+  if (selectedSeats !== null ** selectedSeats.length > 0) {
+    seats.forEach((seat, index) => {
+      if (selectedSeats.indexOf(index) > -1) {
+        seat.classList.add('selected');
+      }
+    });
+  }
+  const selectedMovieIndex = localStorage.getItem('selectedMovieIndex');
+
+  if (selectedMovieIndex !== null) {
+    movieSelect.selectedIndex = selectedMovieIndex;
+  }
+  const selectedMoviePrice = localStorage.getItem('selectedMoviePrice');
+}
+
 // want the price of the default movie value convert to int with +
 let ticketPrice = +movieSelect.value;
 // const ticketNumber = +count;
@@ -19,7 +40,7 @@ function setMovieData(movieIndex, moviePrice) {
   localStorage.setItem('selectedMoviePrice', moviePrice);
 }
 
-function updateSelectedCount() {
+function updateSelectedCountAndTotal() {
   // nodelist (like an array)
   const selectSeats = document.querySelectorAll('.row .seat.selected');
 
@@ -55,7 +76,7 @@ the nodelist does not tell much
 movieSelect.addEventListener('change', (e) => {
   ticketPrice = e.target.value;
   setMovieData(e.target.selectedIndex, e.target.value);
-  updateSelectedCount();
+  updateSelectedCountAndTotal();
 });
 
 // Seat click event
@@ -67,6 +88,9 @@ container.addEventListener('click', (e) => {
     // e.target.className += ' selected';
     e.target.classList.toggle('selected');
 
-    updateSelectedCount();
+    updateSelectedCountAndTotal();
   }
 });
+
+// Initial count and total set so on page refresh it is reset to 0
+updateSelectedCountAndTotal();
