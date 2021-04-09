@@ -7,6 +7,8 @@ const seats = document.querySelectorAll('.row .seat:not(.occupied)');
 const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
+// want the price of the default movie value convert to int with +
+let ticketPrice = +movieSelect.value;
 
 populateUI();
 
@@ -28,11 +30,6 @@ function populateUI() {
   }
   const selectedMoviePrice = localStorage.getItem('selectedMoviePrice');
 }
-
-// want the price of the default movie value convert to int with +
-let ticketPrice = +movieSelect.value;
-// const ticketNumber = +count;
-// const totalPrice = +total;
 
 // Save the selected movie index and price
 function setMovieData(movieIndex, moviePrice) {
